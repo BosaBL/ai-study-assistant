@@ -295,3 +295,7 @@ pyvenv.cfg
 pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/dotenv,venv,python,django,react
+
+# Environment variables and Firebase credentials
+.env
+.firebase-credentials.json
