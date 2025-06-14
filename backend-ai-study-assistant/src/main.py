@@ -240,7 +240,8 @@ async def generate_bullet_points(llm, text_chunks: List[str]) -> List[BulletPoin
 
     Instructions:
     - Must be in Spanish
-    - Create 10 bullet points that capture the most important concepts
+    - Create at least 40 bullet points that capture the most important concepts
+    - If the provided document does not have enough content to generate 40 bullet points, you must generate bullet points at your discretion.
     - Focus on key learnings, main concepts, and actionable insights
     - Avoid redundancy between bullet points
     - Never refer or reference the given text or the documents or the context
@@ -298,7 +299,8 @@ async def generate_quiz_questions(llm, text_chunks: List[str]) -> List[QuizQuest
 
     Instructions:
     - Must be in Spanish.
-    - Create 20 questions that test understanding of key concepts
+    - Create at least 20 questions that test understanding of key concepts
+    - If the provided document does not have enough content to generate 40 questions, you must generate questions at your discretion.
     - Each question should have 4 options (A, B, C, D) with only one correct answer
     - Incorrect options should be plausible and related to the topic (not easily dismissible)
     - Include explanations for the correct answers, you can also add of your own harvers to go in depth
@@ -369,7 +371,8 @@ async def generate_flashcards(llm, text_chunks: List[str]) -> List[Flashcard]:
 
     Instructions:
     - Must be in Spanish
-    - Create 10-15 flashcards covering important terms, concepts, and relationships
+    - Create at least 10-15 flashcards covering important terms, concepts, and relationships
+    - If the provided document does not have enough content to generate 40 flashcards, you must generate flashcards at your discretion.
     - Front should be a clear question or term
     - Back should be a concise but complete answer or definition
     - Assign categories to help organize the flashcards

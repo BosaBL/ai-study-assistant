@@ -1,10 +1,13 @@
-// src/pages/Summary.jsx
 import { useEffect, useState } from "react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import FlipCard from "../components/FlipCard";
 
 export default function Summary() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [expandedIndexes, setExpandedIndexes] = useState([]);
   const uuid = localStorage.getItem("currentUUID");
 
   useEffect(() => {
@@ -38,49 +41,106 @@ export default function Summary() {
     return () => clearInterval(interval);
   }, [uuid]);
 
-  if (loading) return <p>⏳ Procesando tu resumen... por favor espera.</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  const toggleExpand = (i) => {
+    setExpandedIndexes((prev) =>
+      prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]
+    );
+  };
+
+  const exportPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text("Resumen Generado por AI Study Assistant", 14, 20);
+
+    autoTable(doc, {
+      startY: 30,
+      head: [["Puntos Clave"]],
+      body: data.bullet_points.map((bp) => [bp.point]),
+    });
+
+    doc.save("resumen_ai_study_assistant.pdf");
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center py-8 text-blue-600 font-medium">
+        ⏳ Procesando tu resumen... por favor espera.
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-8 text-red-600 font-semibold">
+        ❌ {error}
+      </div>
+    );
+  }
+
   if (!data) return null;
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">🧠 Resumen generado</h2>
-      <ul className="list-disc pl-6">
-        {data.bullet_points.map((item, i) => (
-          <li key={i}>{item.point}</li>
-        ))}
-      </ul>
-
-      <h3 className="text-xl font-semibold mt-6">📝 Preguntas tipo test</h3>
-      <ul className="space-y-4">
-        {data.quiz_questions.slice(0, 5).map((q, i) => (
-          <li key={i} className="border p-4 rounded bg-white shadow-sm">
-            <p className="font-semibold">{q.question}</p>
-            <ul className="pl-4 mt-2 text-sm text-gray-700 space-y-1">
-              <li>A. {q.option_a}</li>
-              <li>B. {q.option_b}</li>
-              <li>C. {q.option_c}</li>
-              <li>D. {q.option_d}</li>
-            </ul>
-            <p className="mt-2 text-green-600 font-medium">
-              ✅ Respuesta correcta: {q.correct_answer}
-            </p>
-            <p className="text-gray-500 text-sm italic">
-              Explicación: {q.explanation}
-            </p>
-          </li>
-        ))}
-      </ul>
-
-      <h3 className="text-xl font-semibold mt-6">🗂️ Flashcards</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {data.flashcards.slice(0, 4).map((fc, i) => (
-          <div key={i} className="p-4 border rounded shadow-sm bg-white">
-            <p><strong>🧩 {fc.front}</strong></p>
-            <p className="text-gray-600">💡 {fc.back}</p>
-          </div>
-        ))}
+    <section className="max-w-4xl mx-auto space-y-12 mt-6">
+      {/* Resumen */}
+      <div className="bg-white p-6 rounded-xl shadow-md relative">
+        <h2 className="text-2xl font-bold mb-4">🧠 Resumen generado</h2>
+        <ul className="list-disc pl-6 text-gray-700 space-y-1">
+          {data.bullet_points.map((item, i) => (
+            <li key={i}>{item.point}</li>
+          ))}
+        </ul>
+        <button
+          onClick={exportPDF}
+          className="absolute top-6 right-6 bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 transition"
+        >
+          📥 Exportar PDF
+        </button>
       </div>
-    </div>
+
+      {/* Preguntas tipo test */}
+      <div className="bg-white p-6 rounded-xl shadow-md">
+        <h3 className="text-xl font-semibold mb-6">📝 Preguntas tipo test</h3>
+        <ul className="space-y-6">
+          {data.quiz_questions.map((q, i) => (
+            <li key={i} className="border p-4 rounded-lg bg-gray-50 shadow-sm">
+              <p className="font-semibold mb-2">❓ {q.question}</p>
+              <ul className="pl-4 text-sm text-gray-800 space-y-1">
+                <li>A. {q.option_a}</li>
+                <li>B. {q.option_b}</li>
+                <li>C. {q.option_c}</li>
+                <li>D. {q.option_d}</li>
+              </ul>
+
+              <button
+                onClick={() => toggleExpand(i)}
+                className="text-blue-600 mt-2 text-sm underline hover:text-blue-800"
+              >
+                {expandedIndexes.includes(i) ? "Ocultar respuesta" : "Ver respuesta"}
+              </button>
+
+              {expandedIndexes.includes(i) && (
+                <div className="mt-2">
+                  <p className="text-green-600 font-medium">
+                    ✅ Respuesta: {q.correct_answer}
+                  </p>
+                  <p className="text-gray-500 text-sm italic">
+                    💬 {q.explanation}
+                  </p>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+      {/* Flashcards */}
+      <div className="bg-white p-6 rounded-xl shadow-md">
+        <h3 className="text-xl font-semibold mb-6">🗂️ Flashcards</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {data.flashcards.map((fc, i) => (
+            <FlipCard key={i} front={fc.front} back={fc.back} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
