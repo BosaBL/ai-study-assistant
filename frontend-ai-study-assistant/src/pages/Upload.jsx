@@ -1,9 +1,17 @@
-import { useState } from "react";
+// src/pages/Upload.jsx
+import { useNavigate } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import UploadPDF from "../components/UploadPDF";
-import PDFResults from "../components/PDFResults";
 
 export default function Upload() {
   const [uuid, setUUID] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (uuid) {
+      navigate({ to: "/summary/$id", params: { id: uuid } });
+    }
+  }, [uuid, navigate]);
 
   return (
     <section className="max-w-3xl mx-auto mt-8">
@@ -14,13 +22,6 @@ export default function Upload() {
         </p>
         <UploadPDF onUUIDReceived={setUUID} />
       </div>
-
-      {uuid && (
-        <div className="mt-8 bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold mb-4">📊 Resultados generados</h2>
-          <PDFResults uuid={uuid} />
-        </div>
-      )}
     </section>
   );
 }

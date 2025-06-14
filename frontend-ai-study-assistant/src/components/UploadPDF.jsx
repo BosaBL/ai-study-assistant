@@ -26,7 +26,7 @@ export default function UploadPDF() {
       const data = await response.json();
       if (data.uuid) {
         localStorage.setItem("currentUUID", data.uuid);
-        navigate({ to: "/summary" });
+        navigate({ to: "/summary/$id", params: { id: data.uuid } });
       }
     } catch (error) {
       console.error("Error al subir archivos:", error);

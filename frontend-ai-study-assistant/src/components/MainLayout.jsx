@@ -12,7 +12,7 @@ export default function MainLayout() {
         <nav className="flex gap-4 text-sm font-medium">
           <Link to="/" className="text-gray-700 hover:text-blue-600 transition">Inicio</Link>
           <Link to="/upload" className="text-gray-700 hover:text-blue-600 transition">Subir PDF</Link>
-          <Link to="/summary" className="text-gray-700 hover:text-blue-600 transition">Resumen</Link>
+          <Link to="/how-it-works" className="text-gray-700 hover:text-blue-600 transition">¿Comó Funciona?</Link>
         </nav>
       </header>
 

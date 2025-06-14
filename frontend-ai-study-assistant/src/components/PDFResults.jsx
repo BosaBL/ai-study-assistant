@@ -14,10 +14,9 @@ export default function PDFResults({ uuid }) {
         const data = await res.json();
 
         if (data.status === "finished") {
-          localStorage.setItem("summaryData", JSON.stringify(data.result));
           setStatus("finished");
           clearInterval(interval);
-          navigate({ to: "/summary" }); // Redirigir al resumen
+          navigate({ to: "/summary/$id", params: { id: uuid } });
         } else if (data.status === "error") {
           setError(data.error_message || "Error al procesar el PDF.");
           setStatus("error");
