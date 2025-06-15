@@ -25,6 +25,15 @@ Los estudiantes y aprendices de por vida a menudo se enfrentan al desafío de ma
 4. **Interactúa y Aprende:** El resumen y el cuestionario generados se presentan al usuario.
 5. **Guarda y Sigue tu Avance:** El progreso y los resultados del usuario se guardan en una base de datos de Firebase, permitiendo revisar y seguir los hitos del aprendizaje.
 
+## 💡 Uso de IA
+
+Este proyecto hace uso de **modelos LLM a través de OpenRouter y LangChain** para:
+- Extraer el contenido principal del texto.
+- Generar automáticamente flashcards.
+- Crear cuestionarios tipo test.
+
+Además, durante el desarrollo usamos **ChatGPT Modelo-4o** como asistente para resolver dudas y mejorar la estructura del código.
+
 ## 🤓 Detalles Técnicos
 
 **⚒️⚒️⚒️⚒️⚒️⚒️ WIP ⚒️⚒️⚒️⚒️⚒️⚒️**
