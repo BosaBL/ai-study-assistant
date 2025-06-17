@@ -27,7 +27,7 @@ Los estudiantes y aprendices de por vida a menudo se enfrentan al desafío de ma
 
 ## 💡 Uso de IA
 
-Este proyecto hace uso de **modelos LLM a través de OpenRouter y LangChain** para:
+Este proyecto hace uso de **Deepsek R1 0528 (free) a través de OpenRouter y LangChain** para:
 - Extraer el contenido principal del texto.
 - Generar automáticamente flashcards.
 - Crear cuestionarios tipo test.
@@ -36,11 +36,10 @@ Además, durante el desarrollo usamos **ChatGPT Modelo-4o** como asistente para 
 
 ## 🤓 Detalles Técnicos
 
-**⚒️⚒️⚒️⚒️⚒️⚒️ WIP ⚒️⚒️⚒️⚒️⚒️⚒️**
-
 ### 💪 Tecnologías Utilizadas
 
 1. **💻 React:** Para construir una interfaz de usuario interactiva y receptiva.
 2. **⚙️ FastAPI:** Para crear un backend robusto que maneje la lógica de negocio y la comunicación con el LLM.
 3. **📁 Firebase:** Para almacenar de forma segura los datos del usuario y los resultados de los cuestionarios, tarjetas de memoria y tarjetas de memoria.
 4. **🤖 LangChain:** Para integrar el modelo de IA y facilitar la generación de resúmenes, tarjetas de memoria y preguntas de cuestionario.
+5. **OpenRouter:** Interfáz que estandariza todas las APIs de LLMs para que sean compatibles con la API de OpenAI.
